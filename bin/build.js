@@ -12,6 +12,7 @@ const ENTRY_POINTS = [
   'src/scripts/switcher-main.ts',
   'src/scripts/navbar.ts',
   'src/scripts/banner.ts',
+  'src/scripts/scroller.ts',
 ];
 
 // Config dev serving
