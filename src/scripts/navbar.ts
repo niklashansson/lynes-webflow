@@ -1,3 +1,4 @@
+import { computePosition, shift } from '@floating-ui/dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -9,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   queryExcludeNested('.navbar_wrap', '.u-component-classes').forEach((navbarWrap) => {
     if (navbarWrap.dataset.scriptInitialized) return;
     navbarWrap.dataset.scriptInitialized = 'true';
+
+    configureFloatingDropdowns(navbarWrap);
 
     const bannerWrap = querySingleExcludeNested(
       '.navbar_banner_wrap',
@@ -94,3 +97,62 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+function configureFloatingDropdowns(rootElement: HTMLElement) {
+  const megaDropdowns = rootElement.querySelectorAll('.ndd_mega_wrap') as NodeListOf<HTMLElement>;
+  // console.log(`Found ${megaDropdowns.length} total dropdown wrappers.`);
+
+  megaDropdowns.forEach((megaDropdown, index) => {
+    const trigger = megaDropdown.querySelector('.ndd_toggle') as HTMLElement | null;
+    const content = megaDropdown.querySelector('.ndd_mega_content_wrap') as HTMLElement | null;
+
+    // This check is the most likely point of failure
+    if (trigger && content) {
+      // console.log(`✅ Observer attached to dropdown #${index + 1}.`);
+
+      let prevState = content.classList.contains('w--open');
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.attributeName === 'class') {
+            const currentState = content.classList.contains('w--open');
+            if (prevState !== currentState) {
+              prevState = currentState;
+
+              if (currentState) {
+                // console.log(`🚀 Positioning open dropdown #${index + 1}.`);
+                computePosition(trigger, content, {
+                  placement: 'bottom-start',
+                  middleware: [
+                    shift({
+                      padding: {
+                        left: 24,
+                        right: 24,
+                      },
+                    }),
+                  ],
+                }).then(({ x, y }) => {
+                  Object.assign(content.style, {
+                    left: `${x}px`,
+                    top: `${y}px`,
+                  });
+                });
+              }
+            }
+          }
+        });
+      });
+
+      observer.observe(content, {
+        attributes: true,
+        attributeFilter: ['class'],
+      });
+    } else {
+      // If a dropdown fails, this message will appear
+      console.error(`❌ Failed to find trigger or content for dropdown #${index + 1}.`, {
+        wrapper: megaDropdown,
+        triggerFound: trigger,
+        contentFound: content,
+      });
+    }
+  });
+}
