@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hide banner if already dismissed in this session
     if (sessionStorage.getItem(sessionKey) === 'true') {
       banner.style.display = 'none';
+      banner.dataset.bannerDismissed = 'true';
       return;
     }
 
@@ -36,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ease: 'power2.inOut',
           onComplete: () => {
             banner.style.display = 'none';
+            banner.dataset.bannerDismissed = 'true';
             sessionStorage.setItem(sessionKey, 'true');
           },
         });
