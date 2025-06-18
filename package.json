@@ -22,6 +22,9 @@
   "files": [
     "dist"
   ],
+  "peerDependencies": {
+    "gsap": "^3.12.7"
+  },
   "scripts": {
     "dev": "cross-env NODE_ENV=development node ./bin/build.js",
     "build": "cross-env NODE_ENV=production node ./bin/build.js",

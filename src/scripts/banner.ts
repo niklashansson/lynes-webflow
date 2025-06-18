@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeButton = banner.querySelector('[data-banner-element="close"]');
     const isDismissable = !!banner.querySelector('[data-banner-element="dismissable-controller"]');
 
+    const isWithinNavbar = !!banner.closest('.navbar_wrap');
+
     const bannerId = banner.dataset.bannerId || 'default';
     const location = banner.dataset.bannerLocation || 'default';
 
@@ -20,28 +22,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Hide banner if already dismissed in this session
     if (sessionStorage.getItem(sessionKey) === 'true') {
-      banner.style.display = 'none';
-      banner.dataset.bannerDismissed = 'true';
+      removeBanner(banner, sessionKey, isWithinNavbar);
       return;
     }
 
     if (closeButton instanceof HTMLElement && isDismissable) {
       closeButton.addEventListener('click', () => {
-        // Animate out then hide and store dismissal
-        gsap.to(banner, {
-          height: 0,
-          opacity: 0,
-          paddingTop: 0,
-          paddingBottom: 0,
-          duration: 0.2,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            banner.style.display = 'none';
-            banner.dataset.bannerDismissed = 'true';
-            sessionStorage.setItem(sessionKey, 'true');
-          },
-        });
+        removeBanner(banner, sessionKey, isWithinNavbar);
       });
     }
   });
 });
+
+function removeBanner(banner: HTMLElement, sessionKey: string, isWithinNavbar: boolean) {
+  if (isWithinNavbar) {
+    const navbar = banner.closest('.navbar_wrap');
+    if (navbar) navbar.classList.add('is-banner-dismissed');
+  }
+
+  banner.remove();
+  sessionStorage.setItem(sessionKey, 'true');
+}
