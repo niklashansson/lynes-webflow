@@ -7,12 +7,7 @@ const BUILD_DIRECTORY = 'dist';
 const PRODUCTION = process.env.NODE_ENV === 'production';
 
 // Config entrypoint files
-const ENTRY_POINTS = [
-  'src/index.ts',
-  'src/scripts/navbar.ts',
-  'src/scripts/banner.ts',
-  'src/scripts/scroller.ts',
-];
+const ENTRY_POINTS = ['src/scripts/navbar.ts', 'src/scripts/banner.ts', 'src/scripts/scroller.ts'];
 
 // Config dev serving
 const LIVE_RELOAD = !PRODUCTION;
@@ -31,6 +26,7 @@ const context = await esbuild.context({
   define: {
     SERVE_ORIGIN: JSON.stringify(SERVE_ORIGIN),
   },
+  external: ['gsap'],
 });
 
 // Build files in prod
