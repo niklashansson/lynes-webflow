@@ -1,9 +1,4 @@
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
 import { queryExcludeNested } from '$utils/query';
-
-gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
   queryExcludeNested('[data-banner-id]', '.u-component-classes').forEach((banner) => {

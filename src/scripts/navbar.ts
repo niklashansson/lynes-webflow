@@ -1,10 +1,6 @@
 import { computePosition, shift } from '@floating-ui/dom';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { queryExcludeNested } from '$utils/query';
-
-gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
   queryExcludeNested('.navbar_wrap', '.u-component-classes').forEach((navbarWrap) => {
