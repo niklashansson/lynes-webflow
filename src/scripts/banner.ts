@@ -26,13 +26,20 @@ document.addEventListener('DOMContentLoaded', () => {
         removeBanner(banner, sessionKey, isWithinNavbar);
       });
     }
+
+    if (isWithinNavbar) {
+      const navbar = banner.closest('.navbar_wrap');
+      if (navbar) {
+        navbar.classList.add('is-banner');
+      }
+    }
   });
 });
 
 function removeBanner(banner: HTMLElement, sessionKey: string, isWithinNavbar: boolean) {
   if (isWithinNavbar) {
     const navbar = banner.closest('.navbar_wrap');
-    if (navbar) navbar.classList.add('is-banner-dismissed');
+    if (navbar) navbar.classList.remove('is-banner');
   }
 
   banner.remove();

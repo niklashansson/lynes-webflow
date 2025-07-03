@@ -9,8 +9,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     configureScrollTrigger(navbarWrap);
     configureFloatingDropdowns(navbarWrap);
+    setInitialBannerState(navbarWrap);
   });
 });
+
+function setInitialBannerState(navbarWrap: HTMLElement) {
+  const banner = navbarWrap.querySelector('.navbar_banner_wrap [data-banner-id]');
+  if (banner) {
+    navbarWrap.classList.add('is-banner');
+  }
+}
 
 function configureScrollTrigger(navbarWrap: HTMLElement) {
   ScrollTrigger.create({
