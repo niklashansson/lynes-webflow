@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (scrollerInstance.dataset.scriptInitialized) return;
       scrollerInstance.dataset.scriptInitialized = 'true';
 
+      // @ts-expect-error - GSAP is loaded in Webflow
       let scrollTriggers: ScrollTrigger[] = [];
 
       // ─────────────────────────────────────────────────────────────
@@ -95,6 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
             button.dataset.scrollInit = 'true'; // avoid double listeners
             button.addEventListener('click', (e) => {
               e.preventDefault();
+              // @ts-expect-error - GSAP is loaded in Webflow
               gsap.to(window, {
                 duration: 1,
                 ease: 'power2.out',
@@ -104,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
 
           /* — active-state trigger — */
+          // @ts-expect-error - GSAP is loaded in Webflow
           return ScrollTrigger.create({
             trigger: item.contentItemEl,
             start: 'top center',
@@ -127,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         });
 
+        // @ts-expect-error - GSAP is loaded in Webflow
         ScrollTrigger.refresh(); // ensure posi tions are correct
       }
 
@@ -169,6 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         /* kill ScrollTriggers so nothing fires on mobile */
         killScrollTriggers();
+        // @ts-expect-error - GSAP is loaded in Webflow
         ScrollTrigger.refresh();
       }
     }
