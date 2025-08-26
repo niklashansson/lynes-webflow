@@ -5,16 +5,18 @@ import { queryExcludeNested } from '$utils/query';
 // Global state to prevent multiple ScrollTrigger instances
 let globalScrollTrigger: unknown = null;
 
-document.addEventListener('DOMContentLoaded', () => {
-  queryExcludeNested('.navbar_wrap', '.u-component-classes').forEach((navbarWrap) => {
-    if (navbarWrap.dataset.scriptInitialized) return;
-    navbarWrap.dataset.scriptInitialized = 'true';
+function init() {
+  document.addEventListener('DOMContentLoaded', () => {
+    queryExcludeNested('.navbar_wrap', '.u-component-classes').forEach((navbarWrap) => {
+      if (navbarWrap.dataset.scriptInitialized) return;
+      navbarWrap.dataset.scriptInitialized = 'true';
 
-    configureScrollTrigger();
-    configureFloatingDropdowns(navbarWrap);
-    setInitialBannerState(navbarWrap);
+      configureScrollTrigger();
+      configureFloatingDropdowns(navbarWrap);
+      setInitialBannerState(navbarWrap);
+    });
   });
-});
+}
 
 function setInitialBannerState(navbarWrap: HTMLElement) {
   const banner = navbarWrap.querySelector('.navbar_banner_wrap [data-banner-id]');
@@ -157,3 +159,5 @@ function setDropdownPosition(toggle: HTMLElement, content: HTMLElement) {
       console.error('Error computing dropdown position:', error);
     });
 }
+
+export default init;
