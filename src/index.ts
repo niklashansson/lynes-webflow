@@ -1,13 +1,7 @@
-import { default as initBanner } from './features/banner';
-import { default as initNavbar } from './features/navbar';
 import { default as initScroller } from './features/scroller';
 
 function initializeFeatures() {
-  const features = [
-    { name: 'Banner', init: initBanner },
-    { name: 'Navbar', init: initNavbar },
-    { name: 'Scroller', init: initScroller },
-  ];
+  const features = [{ name: 'Scroller', init: initScroller }];
 
   const initializedFeatures = new Set<string>();
 
